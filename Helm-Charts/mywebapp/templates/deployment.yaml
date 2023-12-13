@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: mywebapp
+    app.kubernetes.io/instance: mywebapp-demo
+    app.kubernetes.io/version: '1.0.0'
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: picture-upload
+    app.kubernetes.io/managed-by: kubectl
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  name: {{ template "fullname" . }}  # _helpers.tpl has some logic for it. Need to find out how it works.
+  namespace: default
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          ports:
+          - containerPort: {{ .Values.service.internalPort }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}

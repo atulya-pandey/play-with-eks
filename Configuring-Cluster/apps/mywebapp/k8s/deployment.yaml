@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: mywebapp
+    app.kubernetes.io/instance: mywebapp-demo
+    app.kubernetes.io/version: '1.0.0'
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: picture-upload
+    app.kubernetes.io/managed-by: kubectl
+  name: mywebapp-deployment
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mywebapp
+    spec:
+      containers:
+        - image: <Image-Url>
+          imagePullPolicy: Always
+          name: mywebapp
+          ports:
+            - containerPort: 80

@@ -1,0 +1,4 @@
+spec:
+  selector:
+    app: mywebapp
+    version: "1.11"
